@@ -8,6 +8,7 @@ def onChange(value):
     print("추가 화소값:", add_value, type(add_value))
     image = np.uint8(image+add_value)
     cv2.imshow(title, image)
+    print("hello")
 
 image = np.zeros((300,500), np.uint8)
 
