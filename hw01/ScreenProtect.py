@@ -29,10 +29,13 @@ while(True):
     masked = cv2.bitwise_and(img, mask) #bitwise_and를 통해 이미지 연산, 비트 연산으로 겹치는 부분 출력, mask는 text부분이 255 나머지 0. img의 rgb값과 text부분이 겹치는 영역을 출력 ex) img(233,124,234) & mask(255,255,255) => masked(233,124,234)
     cv2.imwrite("ScreenProtect.jpg", masked)    #마스킹한 이미지를 해당 파일로 저장
 
+    cap = cv2.VideoCapture("ScreenProtect.jpg") #VideoCapture는 경로명을 받을 수 있다. 동영상 입력을 위해 사용
+
+    ret, frame = cap.read() #프레임을 잘 읽었다면 ret은 True 못읽으면 False
+    if not ret: break   #ret 제대로 못읽으면 break
     if cv2.waitKey(delay) == ord('q'): break    #키보드로 q가 입력되면 break
 
-    writer.write(cv2.imread("ScreenProtect.jpg")) #jpg파일을 읽어서 write
-
+    writer.write(frame) #frame을 파일로 저장
     cv2.imshow('ScreenProtect_20182152', masked)    #masked를 창으로 띄워서 보여줌
 
     #벽에 부딪힐 때의 좌표 이동 값. 90도이기 때문에 x, y중 하나의 좌표만 정 반대로(1 => -1, -1 => 1) 설정, 만약 x, y 둘 다 바꾸면 180도로 바뀜
@@ -47,6 +50,6 @@ while(True):
     x += dx
     y += dy
 
-writer.release() #동영상 장치 해제 알아서 호출되서 굳이 안적어도 됨
+cap.release() #동영상 파일이나 캡쳐 장치 해제 알아서 호출되서 굳이 안적어도 됨
 cv2.waitKey()
 cv2.destroyAllWindows()
